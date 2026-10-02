@@ -122,6 +122,7 @@ def _copiar_split(
 ) -> None:
     url = _sql_identificador(coluna_url)
     caminho = _sql_literal(arquivo_saida)
+    arquivo_saida.parent.mkdir(parents=True, exist_ok=True)
     consulta = f"""
         COPY (
             SELECT *
@@ -417,9 +418,9 @@ def dividir_dataset(
         _imprimir_relatorio_splits(dados_depois)
 
         arquivos = {
-            "train": diretorio_saida / "train.parquet",
-            "val": diretorio_saida / "val.parquet",
-            "test": diretorio_saida / "test.parquet",
+            "train": diretorio_saida / "train" / "train.parquet",
+            "val": diretorio_saida / "val" / "val.parquet",
+            "test": diretorio_saida / "test" / "test.parquet",
         }
         _copiar_split(
             conexao,
@@ -473,8 +474,8 @@ def main() -> None:
     parser.add_argument(
         "--entrada",
         type=Path,
-        default=raiz_projeto / "dataset_total" / "dataset_total.parquet",
-        help="Parquet total que será limpo e dividido.",
+        default=raiz_projeto / "dataset_total_sanitizado" / "dataset_total.parquet",
+        help="Parquet sanitizado que será limpo e dividido.",
     )
     parser.add_argument(
         "--saida-dir",

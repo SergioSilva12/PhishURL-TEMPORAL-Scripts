@@ -16,10 +16,17 @@ PhishTank/**/*.csv
 # Generated datasets
 *.parquet
 dataset_total/
+dataset_total_sanitizado/
 DATASET/
 !DATASET/
 DATASET/*
-!DATASET/train.parquet
-!DATASET/val.parquet
-!DATASET/test.parquet
+!DATASET/train/
+!DATASET/val/
+!DATASET/test/
+DATASET/train/*
+DATASET/val/*
+DATASET/test/*
+!DATASET/train/train.parquet
+!DATASET/val/val.parquet
+!DATASET/test/test.parquet
 dataset/
