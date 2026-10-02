@@ -1,0 +1,25 @@
+# Python environments and cache
+.venv/
+__pycache__/
+*.py[cod]
+.tmp/
+
+# DuckDB temporary files
+**/duckdb_temp/
+
+# Source data and generated CSVs
+Dominio TrancoLIst/**/*.csv
+Common Crawl/**/*.csv
+JPCERT/**/*.csv
+PhishTank/**/*.csv
+
+# Generated datasets
+*.parquet
+dataset_total/
+DATASET/
+!DATASET/
+DATASET/*
+!DATASET/train.parquet
+!DATASET/val.parquet
+!DATASET/test.parquet
+dataset/
