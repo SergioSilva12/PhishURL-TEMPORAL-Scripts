@@ -112,6 +112,10 @@ Execute os comandos a partir da raiz do projeto. No Windows, `py` pode ser usado
 
    Por padrão, lê `dataset_total_sanitizado/dataset_total.parquet`. O split usa `train` = 2019–2022, `val` = 2023 e `test` = 2024–2025. Grava cada arquivo dentro da pasta correspondente: `DATASET/train/train.parquet`, `DATASET/val/val.parquet` e `DATASET/test/test.parquet`. O script imprime as contagens e encerra com erro se as verificações de anos, rótulos, URLs ou interseções falharem. Os caminhos podem ser sobrescritos com `--entrada` e `--saida-dir`.
 
+## Por que não há script de backup?
+
+Cada etapa gera uma representação processada do mesmo conjunto-base: dados extraídos, dados limpos e amostrados, Parquets anuais e total, versão sanitizada e, por fim, os splits temporais. Esses arquivos ficam em etapas e pastas diferentes, então um script que apenas copiasse cada saída criaria duplicatas sem acrescentar uma nova etapa de processamento.
+
 ## Fontes e referências
 
 - [JPCERT/CC Phishing URL dataset](https://github.com/JPCERTCC/phishurl-list/) — fonte das URLs rotuladas como phishing.
