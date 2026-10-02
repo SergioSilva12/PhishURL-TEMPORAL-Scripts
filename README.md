@@ -88,21 +88,21 @@ Execute os comandos a partir da raiz do projeto. No Windows, `py` pode ser usado
 
    Grava `dataset_total/2019.parquet` até `dataset_total/2025.parquet` e `dataset_total/dataset_total.parquet`. Cada registro recebe `label` (1 phishing, 0 legítimo) e `classificacao` (`phishing` ou `legitimo`).
 
-7. Procurar credenciais expostas e remover as URLs que as contêm:
+7. Verificar esquema, contagens, vazios, rótulos e duplicatas dos Parquets anuais e do total:
+
+   ```powershell
+   py scripts/07_verificar_dataset.py
+   ```
+
+   Lê `dataset_total/` e imprime um relatório para cada Parquet anual e para o total.
+
+8. Procurar credenciais expostas e remover as URLs que as contêm:
 
    ```powershell
    py scripts/08_sanitizar_credenciais.py
    ```
 
-   Examina as colunas textuais dos Parquets em `dataset_total/` com DuckDB, remove linhas que correspondam a padrões de chaves, tokens, senhas, URLs de conexão com credenciais, JWTs, chaves privadas e webhooks. Os originais não são alterados. Cria cópias em `dataset_total_sanitizado/` e o relatório `relatorio_remocao_credenciais.csv`, com contagens por arquivo e categoria, sem incluir os valores encontrados. Os padrões são heurísticos e podem exigir revisão antes de publicar os resultados.
-
-8. Verificar o dataset sanitizado:
-
-   ```powershell
-   py scripts/07_verificar_dataset.py --diretorio dataset_total_sanitizado
-   ```
-
-   Confere esquema, contagens, vazios, rótulos e duplicatas nos arquivos filtrados.
+   Examina as colunas textuais dos Parquets em `dataset_total/` com DuckDB, remove linhas que correspondam a padrões de chaves, tokens, senhas, URLs de conexão com credenciais, JWTs, chaves privadas e webhooks. Os originais não são alterados. Cria cópias em `dataset_total_sanitizado/` e o relatório `dataset_total_sanitizado/relatorio_remocao_credenciais.csv`, com contagens por arquivo e categoria, sem incluir os valores encontrados. Os padrões são heurísticos e podem exigir revisão antes de publicar os resultados.
 
 9. Remover rótulos ambíguos, deduplicar globalmente e fazer o time split:
 
@@ -136,4 +136,4 @@ As fontes mantêm seus próprios termos e condições. Consulte-os antes de redi
 | `08_sanitizar_credenciais.py` | Remove registros com padrões de credenciais expostas e informa quantidades. |
 | `09_dividir_dataset.py` | Aplica a limpeza final e cria train/val/test temporal. |
 
-O `01_extrair_top_dominios.py` pode ser pulado se a lista Tranco já estiver pronta. Execute a sanitização (08) antes da verificação (07) e da divisão temporal (09). Se a sanitização não for executada, passe explicitamente `--entrada dataset_total/dataset_total.parquet` ao divisor. Os nomes de implementação anteriores `08_dividir_dataset.py` e `09_sanitizar_credenciais.py` permanecem temporariamente como compatibilidade; use os novos entry points numerados acima.
+O `01_extrair_top_dominios.py` pode ser pulado se a lista Tranco já estiver pronta. A ordem final é: verificar o dataset original (07), sanitizar (08) e dividir o total sanitizado (09). Se a sanitização não for executada, passe explicitamente `--entrada dataset_total/dataset_total.parquet` ao divisor.
